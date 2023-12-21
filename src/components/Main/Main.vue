@@ -7,6 +7,7 @@ import Eye from '@/assets/images/eye.png';
 import EyeClosed from '@/assets/images/eyeclosed.png';
 import { Buffer } from 'buffer';
 import CryptoJS from 'crypto-js';
+import iziToast from 'izitoast';
 
 export default {
 	data() {
@@ -247,7 +248,32 @@ export default {
 			});
 
 			event.target.classList.toggle('highlighted-border')
-		}
+		},
+
+		copyThis(code) {
+			let stripped_code = code.replace('-', '');
+			this.toast(
+				'',
+				'Copied 2FA code',
+				'success'
+			);
+		},
+
+		toast(
+			title, 
+			message, 
+			style = 'show'
+			/*
+			info, success, warning, error, question
+			*/
+		) {
+			iziToast[style]({
+				title:        title,
+				message:      message,
+				timeout:      10000,
+				resetOnHover: true
+			});
+		},
 	}
 };
 
@@ -384,6 +410,13 @@ export default {
 						</div>
 
 						<div class="keycard-right">
+							<div style="position: absolute; right: 5px; top: -14px;">
+								<span
+									class="fa fa-clipboard fs13 text-blue pointer"
+									@click="copyThis(keypair.code)"
+								></span>
+							</div>
+
 							<p
 								class="mt10 fs30 letter-spacing highlight pointer"
 								ref="keycards"
