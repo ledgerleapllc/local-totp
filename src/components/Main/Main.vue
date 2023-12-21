@@ -8,6 +8,7 @@ import EyeClosed from '@/assets/images/eyeclosed.png';
 import { Buffer } from 'buffer';
 import CryptoJS from 'crypto-js';
 import iziToast from 'izitoast';
+import useClipboard from 'vue-clipboard3';
 
 export default {
 	data() {
@@ -31,6 +32,20 @@ export default {
 		CircleProgress,
 		Eye,
 		EyeClosed
+	},
+
+	setup() {
+		const { toClipboard } = useClipboard();
+
+		const copy = async (msg = '') => {
+			try {
+				await toClipboard(msg);
+			} catch (e) {
+				console.log(e);
+			}
+		}
+
+		return { copy }
 	},
 
 	created() {
@@ -252,6 +267,7 @@ export default {
 
 		copyThis(code) {
 			let stripped_code = code.replace('-', '');
+			this.copy(stripped_code);
 			this.toast(
 				'',
 				'Copied 2FA code',
