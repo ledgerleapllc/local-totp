@@ -259,10 +259,12 @@ export default {
 			let keycards = this.$refs['keycards'] ?? Array();
 
 			Object.values(keycards).forEach((element, i) => {
-				console.log(element.classList.remove('highlighted-border'))
+				element.classList.remove('highlighted-border')
 			});
 
 			event.target.classList.toggle('highlighted-border')
+
+			this.copyThis(event.target?.innerText)
 		},
 
 		copyThis(code) {
@@ -270,7 +272,7 @@ export default {
 			this.copy(stripped_code);
 			this.toast(
 				'',
-				'Copied 2FA code',
+				`Copied 2FA code (${stripped_code})`,
 				'success'
 			);
 		},
